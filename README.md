@@ -1,46 +1,47 @@
 # Warthog-Run
 Escape a collapsing Halo™ ring. You have a Warthog at your disposal as you have to pass enemies, barriers, and more to ensure your safety and finish the fight.
 
-Warthog Project
+## Game features
+* Control the speed of your Warthog as you avoid flipping out.
+* Escape the quickly deteriorating map before it's too late. 
+* Players can drive, walk, or jump; but there is no time to shoot.
 
-13 November 2021
+## Project Structure
+---
+The project files and folders are organized as follows:
+```
+root                    (project root folder)
++-- hilo                (source code for game)
+  +-- game              (specific game classes)
+    +-- collision.py    (base collision class that gets inherited by all objects with collision)
+    +-- maingame.py     (directs game play and interprets map files)
+    +-- warthog.py      (warthog vehicle object)
+    +-- player.py       (represents the player)
+    +-- enemy.py        (gets inherited by all enemy objects)
+    +-- jackal.py       (a jackal enemy)
+    +-- elite.py        (an elite enemy)
+    +-- brute.py        (a brute enemy)
+    +-- grunt.py        (a grunt enemy)
+    +-- health.py       (base health class that gets inherited by all objects with health i.e. enemies and the player)
+    +-- obstacle.py     (a scenic obstacle class)
+  +-- __init__.py       (python package file)
+  +-- __main__.py       (entry point for program)
++-- README.md           (general info)
+```
 
-Team 8 CSE 210
+## Legal
+This game is not affiliated with Microsoft, Xbox, Bungie, or 343 Industries. This is a fan made game.
 
-OUR GAME
+## Required Technologies
+---
+* Python 3.8.0
+* Arcade
 
-An infinite runner game where you drive a Warthog Truck past various obstacles and enemies to escape while the map collapses around you.
+## Authors
+---
+* Carl Bialorucki carl.bialorucki@byui.edu
+* Karla Sommerfeldt  kryn5796@yahoo.ca
 
-What features will we include?
-
-Speed control
-
-Slowly deteriorating map
-
-Player has the possibility of falling out of the truck
-
-Player can jump and or run
-
-	What are our classes?
-
-		Warthog class
-
-		Player class
-
-		Enemy class
-
-		Obstacle class
-
-		Collision class
-
-		Game class
-
-		Health class
-
-		Map class
-
-
-Karla Sommerfeldt  kryn5796@yahoo.ca
 
 
 
