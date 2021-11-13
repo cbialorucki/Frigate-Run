@@ -7,7 +7,6 @@ Escape a collapsing Halo™ ring. You have a Warthog at your disposal as you hav
 * Players can drive, walk, or jump; but there is no time to shoot.
 
 ## Project Structure
----
 The project files and folders are organized as follows:
 ```
 root                    (project root folder)
@@ -33,12 +32,10 @@ root                    (project root folder)
 This game is not affiliated with Microsoft, Xbox, Bungie, or 343 Industries. This is a fan made game.
 
 ## Required Technologies
----
 * Python 3.8.0
 * Arcade
 
 ## Authors
----
 * Carl Bialorucki carl.bialorucki@byui.edu
 * Karla Sommerfeldt  kryn5796@yahoo.ca
 
