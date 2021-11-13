@@ -36,8 +36,11 @@ Player can jump and or run
 		Game class
 
 		Health class
-        
+
 		Map class
+
+
+Karla Sommerfeldt  kryn5796@yahoo.ca
 
 
 
