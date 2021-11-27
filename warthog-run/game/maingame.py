@@ -1,6 +1,6 @@
 import arcade
 import random
-from game import constants
+from game import constants as Constants
 from game.enemy import Enemies
 from game.collision import Collision
 
@@ -14,7 +14,6 @@ class Maingame(arcade.Window):
 
         self.paused = None
 
-
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
@@ -25,15 +24,17 @@ class Maingame(arcade.Window):
 
         # Set the background color
         arcade.set_background_color(arcade.color.SKY_BLUE)
+        self.gameMusic = arcade.load_sound(Constants.GAME_MUSIC_PATH).play()
 
         # Set up the player
-        self.player = arcade.Sprite("Warthog-Run\warthog-run\game\images\warthog.jpg", constants.SCALING)
+        self.player = arcade.Sprite(Constants.WARTHOG_PATH, Constants.SCALING)
         self.player.center_y = self.height - 799
         self.player.left = 10
         self.all_sprites.append(self.player)
 
         arcade.schedule(self.add_enemy, 1.0)
         arcade.schedule(self.add_wall, 2.0)
+        
 
     def add_enemy(self, delta_time: float):
         """Adds a new enemy to the screen
@@ -43,7 +44,7 @@ class Maingame(arcade.Window):
         """
 
         # First, create the new enemy sprite
-        enemy = Enemies("Warthog-Run\warthog-run\game\images\idle.png", constants.SCALING)
+        enemy = Enemies(Constants.IDLE_PATH, Constants.SCALING)
 
         # Set its position to a random height and off screen right
         enemy.left = random.randint(self.width, self.width + 80)
@@ -70,7 +71,7 @@ class Maingame(arcade.Window):
         """
 
         # First, create the new cloud sprite
-        wall = Enemies("Warthog-Run\warthog-run\game\images/wall.jpg", constants.SCALING)
+        wall = Enemies(Constants.WALL_PATH, Constants.SCALING)
 
         # Set its position to a random height and off screen right
         wall.left = random.randint(self.width, self.width + 20)
@@ -153,6 +154,9 @@ class Maingame(arcade.Window):
 
         # Did you hit anything? If so, end the game
         if self.player.collides_with_list(self.enemies_list):
+            self.gameMusic.pause()
+            arcade.load_sound(Constants.FAIL_MUSIC_PATH).play()
+            arcade.pause(3)
             arcade.close_window()
 
         # Keep the player on screen
