@@ -12,13 +12,11 @@ class Maingame(arcade.Window):
         """
         super().__init__(width, height, title)
         
-        #Play Menu Music
+        # Play Menu Music, Show Splash Screen
         self.paused = True
         self.isSetup = False
         self.bgImg = arcade.load_texture(Constants.SPLASH_PATH)
         self.bgMusic = arcade.load_sound(Constants.MENU_MUSIC_PATH).play()
-        img = arcade.load_texture(Constants.SPLASH_PATH)
-        arcade.draw_texture_rectangle(700, 475, 700, 700, img)
 
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
@@ -27,8 +25,10 @@ class Maingame(arcade.Window):
     def setup(self):
         """Get the game ready to play
         """
+        # Unload Splash Screen
         self.paused = False
         self.bgImg = arcade.load_texture(Constants.BACKGROUND_PATH)
+
         # Set the background color
         arcade.set_background_color(arcade.color.SKY_BLUE)
         self.bgMusic.pause()
@@ -132,6 +132,7 @@ class Maingame(arcade.Window):
             symbol {int} -- Which key was pressed
             modifiers {int} -- Which modifiers were pressed
         """
+        # If the game hasn't progressed past the Splash Screen yet, load the game.
         if not self.isSetup:
             self.setup()
             self.isSetup = True
