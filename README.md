@@ -1,10 +1,10 @@
-# Warthog Run
-Escape a collapsing Halo™ ring. You have a Warthog at your disposal as you have to pass enemies, barriers, and more to ensure your safety and finish the fight.
+# Frigate Run
+Escape a collapsing Halo™ ring. You have a Frigate at your disposal as you have to pass enemies, barriers, and more to ensure your safety and finish the fight.
 
 ## Game features
-* Control the speed of your Warthog as you avoid flipping out.
+* Control the speed of your Frigate as you avoid obstacles.
 * Escape the quickly deteriorating map before it's too late. 
-* Players can drive, walk, or jump; but there is no time to shoot.
+* Players can fly; but there is no time to shoot.
 
 ## Project Structure
 The project files and folders are organized as follows:
