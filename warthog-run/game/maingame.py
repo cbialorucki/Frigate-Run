@@ -11,8 +11,14 @@ class Maingame(arcade.Window):
         """Initialize the game
         """
         super().__init__(width, height, title)
-
-        self.paused = None
+        
+        #Play Menu Music
+        self.paused = True
+        self.isSetup = False
+        self.bgImg = arcade.load_texture(Constants.SPLASH_PATH)
+        self.bgMusic = arcade.load_sound(Constants.MENU_MUSIC_PATH).play()
+        img = arcade.load_texture(Constants.SPLASH_PATH)
+        arcade.draw_texture_rectangle(700, 475, 700, 700, img)
 
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
@@ -21,13 +27,15 @@ class Maingame(arcade.Window):
     def setup(self):
         """Get the game ready to play
         """
-
+        self.paused = False
+        self.bgImg = arcade.load_texture(Constants.BACKGROUND_PATH)
         # Set the background color
         arcade.set_background_color(arcade.color.SKY_BLUE)
-        self.gameMusic = arcade.load_sound(Constants.GAME_MUSIC_PATH).play()
+        self.bgMusic.pause()
+        self.bgMusic = arcade.load_sound(Constants.GAME_MUSIC_PATH).play()
 
         # Set up the player
-        self.player = arcade.Sprite(Constants.WARTHOG_PATH, Constants.SCALING)
+        self.player = arcade.Sprite(Constants.FRIGATE_PATH, Constants.FRIGATE_SCALE, hit_box_algorithm='Detailed')
         self.player.center_y = self.height - 799
         self.player.left = 10
         self.all_sprites.append(self.player)
@@ -99,6 +107,9 @@ class Maingame(arcade.Window):
             # Quit immediately
             arcade.close_window()
 
+        if not self.isSetup:
+            return
+
         if symbol == arcade.key.P:
             self.paused = not self.paused
 
@@ -121,6 +132,10 @@ class Maingame(arcade.Window):
             symbol {int} -- Which key was pressed
             modifiers {int} -- Which modifiers were pressed
         """
+        if not self.isSetup:
+            self.setup()
+            self.isSetup = True
+
         if (
             symbol == arcade.key.W
             or symbol == arcade.key.S
@@ -154,7 +169,7 @@ class Maingame(arcade.Window):
 
         # Did you hit anything? If so, end the game
         if self.player.collides_with_list(self.enemies_list):
-            self.gameMusic.pause()
+            self.bgMusic.pause()
             arcade.load_sound(Constants.FAIL_MUSIC_PATH).play()
             arcade.pause(3)
             arcade.close_window()
@@ -174,4 +189,5 @@ class Maingame(arcade.Window):
         """Draw all game objects
         """
         arcade.start_render()
+        arcade.draw_texture_rectangle(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, self.bgImg)
         self.all_sprites.draw()
