@@ -38,6 +38,7 @@ This game is not affiliated with Microsoft, Xbox, Bungie, or 343 Industries. Thi
 ## Authors
 * Carl Bialorucki carl.bialorucki@byui.edu
 * Karla Sommerfeldt  kryn5796@yahoo.ca
+* Jake Corn corn614@gmail.com
 
 
 
