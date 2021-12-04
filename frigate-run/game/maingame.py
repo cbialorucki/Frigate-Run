@@ -1,8 +1,10 @@
 import arcade
 import random
+import time
 from game import constants as Constants
 from game.enemy import Enemies
 from game.collision import Collision
+from game.health import Health
 
 
 class Maingame(arcade.Window):
@@ -21,6 +23,8 @@ class Maingame(arcade.Window):
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
+
+        
     
     def setup(self):
         """Get the game ready to play
@@ -42,6 +46,11 @@ class Maingame(arcade.Window):
 
         arcade.schedule(self.add_enemy, 1.0)
         arcade.schedule(self.add_wall, 2.0)
+
+        #Set up player health
+        self.health = Health(100, arcade.draw_rectangle_filled(self.width/2, 599, 100, 25, arcade.color.BLUE))
+
+        
         
 
     def add_enemy(self, delta_time: float):
@@ -170,10 +179,23 @@ class Maingame(arcade.Window):
 
         # Did you hit anything? If so, end the game
         if self.player.collides_with_list(self.enemies_list):
-            self.bgMusic.pause()
-            arcade.load_sound(Constants.FAIL_MUSIC_PATH).play()
-            arcade.pause(3)
-            arcade.close_window()
+            
+            
+            new_health = self.health.health - 25
+            #b = self.health.player_health(int(new_health))
+            
+            #self.health.healthbar 
+            
+            
+            if new_health < 0:
+                self.bgMusic.pause()
+                arcade.load_sound(Constants.FAIL_MUSIC_PATH).play()
+                arcade.pause(3)
+                arcade.close_window()
+            
+            
+
+            
 
         # Keep the player on screen
         if self.player.top > self.height:
@@ -191,4 +213,5 @@ class Maingame(arcade.Window):
         """
         arcade.start_render()
         arcade.draw_texture_rectangle(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, self.bgImg)
+        Health(100, arcade.draw_rectangle_filled(self.width/2, 599, 100, 25, arcade.color.BLUE))
         self.all_sprites.draw()
