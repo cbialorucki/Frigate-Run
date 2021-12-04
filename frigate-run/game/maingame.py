@@ -168,10 +168,10 @@ class Maingame(arcade.Window):
         # Update everything
         self.all_sprites.update()
 
-        # Did you hit anything? If so, end the game
+        # Did you hit anything? If so, deduct health
         if self.player.collides_with_list(self.enemies_list):
             self.bgMusic.pause()
-            arcade.load_sound(Constants.FAIL_MUSIC_PATH).play()
+            arcade.load_sound(Constants.CRASH_SOUND_PATH).play()
             arcade.pause(3)
             arcade.close_window()
 
