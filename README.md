@@ -10,7 +10,7 @@ Escape a collapsing Halo™ ring. You have a Frigate at your disposal as you hav
 The project files and folders are organized as follows:
 ```
 root                    (project root folder)
-+-- warthog-run         (source code for game)
++-- frigate-run         (source code for game)
   +-- game              (specific game classes)
     +-- collision.py    (base collision class that gets inherited by all objects with collision)
     +-- maingame.py     (directs game play and interprets map files)
