@@ -177,7 +177,7 @@ class Maingame(arcade.Window):
         # Update everything
         self.all_sprites.update()
 
-        # Did you hit anything? If so, end the game
+        # Did you hit anything? If so, deduct health
         if self.player.collides_with_list(self.enemies_list):
             
             
@@ -193,8 +193,6 @@ class Maingame(arcade.Window):
                 arcade.pause(3)
                 arcade.close_window()
             
-            
-
             
 
         # Keep the player on screen
