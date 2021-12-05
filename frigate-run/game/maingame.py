@@ -1,9 +1,10 @@
 import arcade
 import random
-from game import constants as Constants
+import game.constants as Constants
 from game.enemy import Enemies
 from game.player import Player
-
+from game.hud import HUD
+from datetime import datetime
 
 class Maingame(arcade.Window):
     
@@ -42,6 +43,8 @@ class Maingame(arcade.Window):
 
         arcade.schedule(self.add_enemy, 1.0)
         arcade.schedule(self.add_wall, 2.0)
+
+        self._hud = HUD(self.player)
         
 
     def add_enemy(self, delta_time: float):
@@ -176,6 +179,11 @@ class Maingame(arcade.Window):
             
             if self.player.isDead():
                 arcade.close_window()
+        
+        if not self.player.isFullHealth() and (datetime.now().second - self.player._lastHit) >= Constants.SHIELD_RECHARGE_TIME:
+            #Recharge shields
+            self.player.recharge()
+            self._hud.playRechargeSound()
 
         # Keep the player on screen
         if self.player.top > self.height:
@@ -194,3 +202,5 @@ class Maingame(arcade.Window):
         arcade.start_render()
         arcade.draw_texture_rectangle(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, self.bgImg)
         self.all_sprites.draw()
+        if self.isSetup:
+            self._hud.updateBar()
