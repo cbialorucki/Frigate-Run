@@ -17,7 +17,7 @@ class Player(arcade.Sprite):
             arcade.load_sound(Constants.CRASH_SOUND_PATH).play()
             self._lastCollisionSprites.append(sprite)
             self._didShieldRecharge = False
-            self._lastHit = datetime.now().second
+            self._lastHit = datetime.now()
             if len(self._lastCollisionSprites) >= 10:
                 self._lastCollisionSprites.pop(0)
     

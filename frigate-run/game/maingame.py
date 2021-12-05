@@ -18,6 +18,7 @@ class Maingame(arcade.Window):
         self.isSetup = False
         self.bgImg = arcade.load_texture(Constants.SPLASH_PATH)
         self.bgMusic = arcade.load_sound(Constants.MENU_MUSIC_PATH).play()
+        self.bgMusic.loop = True
 
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
@@ -34,6 +35,7 @@ class Maingame(arcade.Window):
         arcade.set_background_color(arcade.color.SKY_BLUE)
         self.bgMusic.pause()
         self.bgMusic = arcade.load_sound(Constants.GAME_MUSIC_PATH).play()
+        self.bgMusic.loop = True
 
         # Set up the player
         self.player = Player(hit_box_algorithm='Detailed')
@@ -180,7 +182,7 @@ class Maingame(arcade.Window):
             if self.player.isDead():
                 arcade.close_window()
         
-        if not self.player.isFullHealth() and (datetime.now().second - self.player._lastHit) >= Constants.SHIELD_RECHARGE_TIME:
+        if not self.player.isFullHealth() and (datetime.now() - self.player._lastHit).total_seconds() >= Constants.SHIELD_RECHARGE_TIME:
             #Recharge shields
             self.player.recharge()
             self._hud.playRechargeSound()
