@@ -1,6 +1,7 @@
 import arcade
 import game.constants as Constants
 from game.health import Health
+from datetime import datetime
 
 class Player(arcade.Sprite):
     
@@ -8,14 +9,37 @@ class Player(arcade.Sprite):
         super().__init__(filename=Constants.FRIGATE_PATH, scale=Constants.FRIGATE_SCALE, image_x=image_x, image_y=image_y, image_width=image_width, image_height=image_height, center_x=center_x, center_y=center_y, repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y, flipped_horizontally=flipped_horizontally, flipped_vertically=flipped_vertically, flipped_diagonally=flipped_diagonally, hit_box_algorithm=hit_box_algorithm, hit_box_detail=hit_box_detail, texture=texture, angle=angle)
         self._health = Health(Constants.TOTAL_HEALTH)
         self._lastCollisionSprites = []
+        self._lastHit = 0
     
     def hitsObj(self, sprite):
         if not sprite in self._lastCollisionSprites:
             self._health.takeDamage(Constants.HIT_POINTS)
             arcade.load_sound(Constants.CRASH_SOUND_PATH).play()
             self._lastCollisionSprites.append(sprite)
+            self._didShieldRecharge = False
+            self._lastHit = datetime.now().second
             if len(self._lastCollisionSprites) >= 10:
                 self._lastCollisionSprites.pop(0)
     
     def isDead(self):
         return self._health.isDead()
+    
+    def isShieldDown(self):
+        return self._health.isShieldDown()
+    
+    def getTotalHealth(self):
+        return self._health.getTotalHealth()
+    
+    def getActualHealth(self):
+        return self._health.getActualHealth()
+    
+    def getLastHitTime(self):
+        return self._lastHit
+    
+    def isFullHealth(self):
+        if self._health.getActualHealth() == self._health.getTotalHealth():
+            return True
+        return False
+
+    def recharge(self):
+        self._health.regenerateShield()

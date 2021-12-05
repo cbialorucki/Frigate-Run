@@ -15,7 +15,7 @@ class Health():
         return self._isDead
     
     def isShieldDown(self):
-        if self.actualHealth == 0:
+        if self._actualHealth == 0:
             return True
         else:
             return False
@@ -25,3 +25,6 @@ class Health():
     
     def getTotalHealth(self):
         return self._initHealth
+    
+    def getActualHealth(self):
+        return self._actualHealth
