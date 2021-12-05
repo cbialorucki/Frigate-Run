@@ -2,7 +2,7 @@ import arcade
 import random
 from game import constants as Constants
 from game.enemy import Enemies
-from game.collision import Collision
+from game.player import Player
 
 
 class Maingame(arcade.Window):
@@ -35,7 +35,7 @@ class Maingame(arcade.Window):
         self.bgMusic = arcade.load_sound(Constants.GAME_MUSIC_PATH).play()
 
         # Set up the player
-        self.player = arcade.Sprite(Constants.FRIGATE_PATH, Constants.FRIGATE_SCALE, hit_box_algorithm='Detailed')
+        self.player = Player(hit_box_algorithm='Detailed')
         self.player.center_y = self.height - 799
         self.player.left = 10
         self.all_sprites.append(self.player)
@@ -170,10 +170,12 @@ class Maingame(arcade.Window):
 
         # Did you hit anything? If so, deduct health
         if self.player.collides_with_list(self.enemies_list):
-            self.bgMusic.pause()
-            arcade.load_sound(Constants.CRASH_SOUND_PATH).play()
-            arcade.pause(3)
-            arcade.close_window()
+            for x in self.enemies_list:
+                if self.player.collides_with_sprite(x):
+                    self.player.hitsObj(x)
+            
+            if self.player.isDead():
+                arcade.close_window()
 
         # Keep the player on screen
         if self.player.top > self.height:
