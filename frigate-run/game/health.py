@@ -8,7 +8,7 @@ class Health():
     
     def takeDamage(self, hitPoints):
         self._actualHealth -= hitPoints
-        if(self._actualHealth <= 0):
+        if(self._actualHealth < 0):
             self._isDead = True
     
     def isDead(self):
