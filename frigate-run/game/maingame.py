@@ -1,7 +1,9 @@
 import arcade
 import random
+
+from arcade.window_commands import schedule
 import game.constants as Constants
-from game.enemy import Enemies
+from game.enemy import Enemy
 from game.player import Player
 from game.hud import HUD
 from datetime import datetime
@@ -28,7 +30,6 @@ class Maingame(arcade.Window):
         """Get the game ready to play
         """
         # Unload Splash Screen
-        self.paused = False
         self.bgImg = arcade.load_texture(Constants.BACKGROUND_PATH)
 
         # Set the background color
@@ -43,28 +44,44 @@ class Maingame(arcade.Window):
         self.player.left = 10
         self.all_sprites.append(self.player)
 
-        arcade.schedule(self.add_enemy, 1.0)
-        arcade.schedule(self.add_wall, 2.0)
+        self.schedule_enemies()
+        arcade.schedule(self.schedule_enemies, Constants.DOUBLE_ENEMIES)
 
         self._hud = HUD(self.player)
-        
+        self.paused = False
 
-    def add_enemy(self, delta_time: float):
+    def schedule_enemies(self, delta_time: float=0.0): 
+        arcade.schedule(self.add_seraph, Constants.SERAPH_FREQUENCY)
+        arcade.schedule(self.add_banshee, Constants.BANSHEE_FREQUENCY)
+        arcade.schedule(self.add_cruiser, Constants.CRUISER_FREQUENCY)
+        arcade.schedule(self.add_phantom, Constants.PHANTOM_FREQUENCY)
+        arcade.schedule(self.add_spirit, Constants.SPIRIT_FREQUENCY)
+
+    def add_seraph(self, delta_time: float):
+        self.add_enemy(Enemy(Constants.SERAPH_PATH, Constants.SERAPH_SCALE, Constants.SERAPH_VELOCITY))
+    
+    def add_banshee(self, delta_time: float):
+        self.add_enemy(Enemy(Constants.BANSHEE_PATH, Constants.BANSHEE_SCALE, Constants.BANSHEE_VELOCITY))
+    
+    def add_cruiser(self, delta_time: float):
+        self.add_enemy(Enemy(Constants.CRUISER_PATH, Constants.CRUISER_SCALE, Constants.CRUISER_VELOCITY))
+        
+    def add_phantom(self, delta_time: float):
+        # If the hit_box_detection is detailed, program will crash for this enemy. Set to Simple.
+        self.add_enemy(Enemy(Constants.PHANTOM_PATH, Constants.PHANTOM_SCALE, Constants.PHANTOM_VELOCITY, hit_box_algorithm='Simple')) 
+    
+    def add_spirit(self, delta_time: float):
+        self.add_enemy(Enemy(Constants.SPIRIT_PATH, Constants.SPIRIT_SCALE, Constants.SPIRIT_VELOCITY))
+
+    def add_enemy(self, enemy):
         """Adds a new enemy to the screen
 
         Arguments:
             delta_time {float} -- How much time has passed since the last call
         """
-
-        # First, create the new enemy sprite
-        enemy = Enemies(Constants.IDLE_PATH, Constants.SCALING)
-
         # Set its position to a random height and off screen right
-        enemy.left = random.randint(self.width, self.width + 80)
-        enemy.top = random.randint(10, self.height - 10)
-
-        # Set its speed to a random speed heading left
-        enemy.velocity = (random.randint(-10, -5), 0)
+        enemy.left = random.SystemRandom().randint(self.width, self.width + 80)
+        enemy.top = random.SystemRandom().randint(10, self.height - 10)
 
         # Add it to the enemies list
         self.enemies_list.append(enemy)
@@ -75,27 +92,6 @@ class Maingame(arcade.Window):
 
         for enemy in self.enemies_list:
             enemy.update()
-
-    def add_wall(self, delta_time: float):
-        """Adds a new cloud to the screen
-
-        Arguments:
-            delta_time {float} -- How much time has passed since the last call
-        """
-
-        # First, create the new cloud sprite
-        wall = Enemies(Constants.WALL_PATH, Constants.SCALING)
-
-        # Set its position to a random height and off screen right
-        wall.left = random.randint(self.width, self.width + 20)
-        wall.top = random.randint(10, self.height - 10)
-
-        # Set its speed to a random speed heading left
-        wall.velocity = (random.randint(-5, -2), 0)
-
-        # Add it to the enemies list
-        self.enemies_list.append(wall)
-        self.all_sprites.append(wall)
 
     def on_key_press(self, symbol, modifiers):
         """Handle user keyboard input
