@@ -1,9 +1,9 @@
 # Frigate Run
-Escape a collapsing Halo™ ring. You have a Frigate at your disposal as you have to pass enemies, barriers, and more to ensure your safety and finish the fight.
+Fly through a Covenant armada. You have a Frigate at your disposal as you have to pass Phantoms, Banshees, Seraphs, and more to ensure your safety and finish the fight.
 
 ## Game features
 * Control the speed of your Frigate as you avoid obstacles.
-* Escape the quickly deteriorating map before it's too late. 
+* Escape the quickly multiplying Covenant before it's too late. 
 * Players can fly; but there is no time to shoot.
 
 ## Project Structure
@@ -11,18 +11,14 @@ The project files and folders are organized as follows:
 ```
 root                    (project root folder)
 +-- frigate-run         (source code for game)
+  +-- resources         (contains images and sounds for the game)
   +-- game              (specific game classes)
-    +-- collision.py    (base collision class that gets inherited by all objects with collision)
-    +-- maingame.py     (directs game play and interprets map files)
-    +-- warthog.py      (warthog vehicle object)
+    +-- constants.py    (constants used by the game)
+    +-- enemy.py        (base class for all enemy objects)
+    +-- health.py       (health class that is used for the player)
+    +-- hud.py          (draws the "Heads Up Display" (HUD))
+    +-- maingame.py     (directs game play)
     +-- player.py       (represents the player)
-    +-- enemy.py        (gets inherited by all enemy objects)
-    +-- jackal.py       (a jackal enemy)
-    +-- elite.py        (an elite enemy)
-    +-- brute.py        (a brute enemy)
-    +-- grunt.py        (a grunt enemy)
-    +-- health.py       (base health class that gets inherited by all objects with health i.e. enemies and the player)
-    +-- obstacle.py     (a scenic obstacle class)
   +-- __init__.py       (python package file)
   +-- __main__.py       (entry point for program)
 +-- README.md           (general info)
