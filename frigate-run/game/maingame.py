@@ -67,8 +67,7 @@ class Maingame(arcade.Window):
         self.add_enemy(Enemy(Constants.CRUISER_PATH, Constants.CRUISER_SCALE, Constants.CRUISER_VELOCITY))
         
     def add_phantom(self, delta_time: float):
-        # If the hit_box_detection is detailed, program will crash for this enemy. Set to Simple.
-        self.add_enemy(Enemy(Constants.PHANTOM_PATH, Constants.PHANTOM_SCALE, Constants.PHANTOM_VELOCITY, hit_box_algorithm='Simple')) 
+        self.add_enemy(Enemy(Constants.PHANTOM_PATH, Constants.PHANTOM_SCALE, Constants.PHANTOM_VELOCITY)) 
     
     def add_spirit(self, delta_time: float):
         self.add_enemy(Enemy(Constants.SPIRIT_PATH, Constants.SPIRIT_SCALE, Constants.SPIRIT_VELOCITY))
