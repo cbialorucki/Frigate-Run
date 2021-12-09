@@ -23,14 +23,15 @@ class HUD():
                                          height=Constants.HEALTH_BAR_HEIGHT,
                                          color=arcade.color.RED if self._isHealthRed else arcade.color.GRAY)
         
-        self._health_width = Constants.HEALTH_BAR_WIDTH * (self._player.getActualHealth() / self._player.getTotalHealth())
+        if self._player.getActualHealth() > 0:
+            self._health_width = Constants.HEALTH_BAR_WIDTH * (self._player.getActualHealth() / self._player.getTotalHealth())
 
-        arcade.draw_rectangle_filled(center_x=Constants.SCREEN_WIDTH/2 - 0.5 * (Constants.HEALTH_BAR_WIDTH - self._health_width),
-                                     center_y=Constants.SCREEN_HEIGHT + Constants.HEALTH_BAR_OFFSET_Y,
-                                     width=self._health_width,
-                                     height=Constants.HEALTH_BAR_HEIGHT,
-                                     color=arcade.color.SKY_BLUE)
-        
+            arcade.draw_rectangle_filled(center_x=Constants.SCREEN_WIDTH/2 - 0.5 * (Constants.HEALTH_BAR_WIDTH - self._health_width),
+                                        center_y=Constants.SCREEN_HEIGHT + Constants.HEALTH_BAR_OFFSET_Y,
+                                        width=self._health_width,
+                                        height=Constants.HEALTH_BAR_HEIGHT,
+                                        color=arcade.color.SKY_BLUE)
+            
         if self._player.isShieldDown():
             self._shieldDownPlayer.play()
             
