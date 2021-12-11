@@ -7,8 +7,19 @@ from game.enemy import Enemy
 from game.player import Player
 from game.hud import HUD
 from datetime import datetime
+from game.timer import Timer
 
 class Maingame(arcade.Window):
+    """A code template for a person who directs the game. The responsibility of 
+    this class of objects is display the screen and inputs for .
+    
+    Stereotype:
+        Controller
+
+    Attributes:
+        enemies_list (dictionary): The game enemies
+        all_sprites (dictionary): All sprites to be used in game
+    """
     
     def __init__(self, width, height, title):
         """Initialize the game
@@ -21,6 +32,8 @@ class Maingame(arcade.Window):
         self.bgImg = arcade.load_texture(Constants.SPLASH_PATH)
         self.bgMusic = arcade.load_sound(Constants.MENU_MUSIC_PATH).play()
         self.bgMusic.loop = True
+        
+        
 
         # Set up the empty sprite lists
         self.enemies_list = arcade.SpriteList()
@@ -31,6 +44,7 @@ class Maingame(arcade.Window):
         """
         # Unload Splash Screen
         self.bgImg = arcade.load_texture(Constants.BACKGROUND_PATH)
+        
 
         # Set the background color
         arcade.set_background_color(arcade.color.SKY_BLUE)
@@ -48,8 +62,9 @@ class Maingame(arcade.Window):
         arcade.schedule(self.schedule_enemies, Constants.DOUBLE_ENEMIES)
 
         self._hud = HUD(self.player)
+        self._timer = Timer()
         self.paused = False
-
+        
     def schedule_enemies(self, delta_time: float=0.0): 
         arcade.schedule(self.add_seraph, Constants.SERAPH_FREQUENCY)
         arcade.schedule(self.add_banshee, Constants.BANSHEE_FREQUENCY)
@@ -153,6 +168,8 @@ class Maingame(arcade.Window):
         ):
             self.player.change_x = 0
 
+       
+
     def on_update(self, delta_time: float):
         """Update the positions and statuses of all game objects
         If paused, do nothing
@@ -168,6 +185,15 @@ class Maingame(arcade.Window):
         # Update everything
         self.all_sprites.update()
 
+        
+        #self._timer.begin_time += delta_time
+        self._timer.total_time -= delta_time
+        if self._timer.total_time < 0.0:
+            arcade.close_window()
+            arcade.draw_text("Cogratulations you made it through the game", Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2, arcade.color.AERO_BLUE, 25)
+        
+            
+
         # Did you hit anything? If so, deduct health
         if self.player.collides_with_list(self.enemies_list):
             for x in self.enemies_list:
@@ -176,6 +202,8 @@ class Maingame(arcade.Window):
             
             if self.player.isDead():
                 arcade.close_window()
+            
+            
         
         if not self.player.isFullHealth() and (datetime.now() - self.player._lastHit).total_seconds() >= Constants.SHIELD_RECHARGE_TIME:
             #Recharge shields
@@ -199,5 +227,8 @@ class Maingame(arcade.Window):
         arcade.start_render()
         arcade.draw_texture_rectangle(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, self.bgImg)
         self.all_sprites.draw()
+        
         if self.isSetup:
             self._hud.updateBar()
+            self._timer.timer()
+       
