@@ -9,10 +9,10 @@ class HUD():
     
         Attributes:
             _player: The player class
-            _sheildDownSound: Sound for low healh
+            _shieldDownSound: Sound for low health
             _shieldDownPlayer: Sound for being hit
             _isHealthRed: Is player almost dead
-            _sheildRechargeSound: Sound for recharging shield"""
+            _shieldRechargeSound: Sound for recharging shield"""
     
     def __init__(self, player):
         """ Initialize the HUD
